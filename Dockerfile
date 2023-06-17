@@ -1,4 +1,4 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10-slim as python-base
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.11-slim as python-base
 ENV PYTHONUNBUFFERED=true
 WORKDIR /app
 

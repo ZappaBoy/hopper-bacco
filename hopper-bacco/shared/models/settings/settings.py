@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     allowed_hosts: List[str] = []
     api_key_header: str = "x-api-key"
     api_key: str
+    request_timeout_seconds: int = 100
+    proxy_countries: List[str] = []
 
     class Config:
         env_file = ".env"

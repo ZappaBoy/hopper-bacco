@@ -6,7 +6,7 @@ from shared.utilities.logger import Logger
 
 
 @Singleton
-class UserAgentService:
+class UserAgentRotatorService:
     def __init__(self):
         self.logger = Logger(self.__class__.__name__)
         software_names = [SoftwareName.CHROME.value, SoftwareName.FIREFOX.value, SoftwareName.EDGE.value]

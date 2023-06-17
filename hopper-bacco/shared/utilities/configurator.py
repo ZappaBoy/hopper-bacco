@@ -1,3 +1,5 @@
+from typing import List
+
 from shared.decorators.singleton import Singleton
 from shared.models.settings.environment import Environment
 from shared.models.settings.log_level import LogLevel
@@ -22,6 +24,12 @@ class Configurator:
 
     def get_api_key(self) -> str:
         return self._settings.api_key
+
+    def get_request_timeout_seconds(self) -> int:
+        return self._settings.request_timeout_seconds
+
+    def get_proxy_countries(self) -> List[str]:
+        return self._settings.proxy_countries
 
     def get_settings(self) -> Settings:
         return self._settings

@@ -6,6 +6,7 @@ packages = \
  'hopper-bacco.routes',
  'hopper-bacco.routes.hopper',
  'hopper-bacco.routes.hopper.dto',
+ 'hopper-bacco.routes.services',
  'hopper-bacco.shared',
  'hopper-bacco.shared.decorators',
  'hopper-bacco.shared.deps',
@@ -20,6 +21,7 @@ package_data = \
 install_requires = \
     ['fastapi-utils>=0.2.1,<0.3.0',
      'fastapi>=0.95.1,<0.96.0',
+     'free-proxy>=1.1.1,<2.0.0',
      'loguru>=0.7.0,<0.8.0',
      'pydantic>=1.10.7,<2.0.0',
      'random-user-agent>=1.0.1,<2.0.0',
