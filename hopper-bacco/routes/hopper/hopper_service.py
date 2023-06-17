@@ -17,6 +17,7 @@ class HopperService:
         self.ip_rotator_service = IpRotatorService.instance()
         self.timeout = Configurator.instance().get_request_timeout_seconds()
         self.proxy_countries = Configurator.instance().get_proxy_countries()
+        self.thread_finished = threading.Event()
 
     def proxy(self, hopper_dto: HopperDto) -> dict:
         self.logger.debug(f"Proxying request: {hopper_dto}")
@@ -27,6 +28,7 @@ class HopperService:
         proxies = self.ip_rotator_service.get_random_proxy_list(countries=self.proxy_countries)
 
         queue = Queue()
+        self.thread_finished = threading.Event()
         args = (queue, session, hopper_dto, headers)
         threads = [threading.Thread(target=self.execute_queue_request, args=args + (proxies[i],))
                    for i in range(len(proxies))]
@@ -34,8 +36,8 @@ class HopperService:
             thread.daemon = True
             thread.start()
 
+        self.thread_finished.wait()
         response = queue.get()
-
         if response.ok:
             return response.json()
         else:
@@ -44,7 +46,11 @@ class HopperService:
     def execute_queue_request(self, queue: Queue, session: requests.Session, hopper_dto: HopperDto, headers: dict,
                               proxy: str) -> None:
         proxy_map = {"http": proxy, "https": proxy}
-        response = session.request(method=hopper_dto.method, url=hopper_dto.url, params=hopper_dto.params,
-                                   headers=headers, data=hopper_dto.body, proxies=proxy_map,
-                                   timeout=self.timeout)
-        queue.put(response)
+        try:
+            response = session.request(method=hopper_dto.method, url=hopper_dto.url, params=hopper_dto.params,
+                                       headers=headers, data=hopper_dto.body, proxies=proxy_map,
+                                       timeout=self.timeout)
+            queue.put(response)
+            self.thread_finished.set()
+        except Exception as e:
+            self.logger.debug(f"Error proxying request: {e}")
