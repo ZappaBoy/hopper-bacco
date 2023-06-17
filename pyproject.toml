@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "hopper-bacco"
+version = "0.1.0"
+description = "Hopper-Bacco (Oh perbacco) is a simple utility that forward requests changing IP and User Agent to avoid bans."
+authors = ["ZappaBoy <federico.zappone@justanother.cloud>"]
+maintainers = ["ZappaBoy <federico.zappone@justanother.cloud>"]
+readme = "README.md"
+packages = [{ include = "hopper-bacco" }]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+fastapi = "^0.95.1"
+fastapi-utils = "^0.2.1"
+starlette = "^0.26.1"
+pydantic = "^1.10.7"
+loguru = "^0.7.0"
+uvicorn = "^0.21.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.3.1"
+python-dotenv = "^1.0.0"
+httpx = "^0.24.1"
+poetry2setup = "^1.1.0"
+pytest-env = "^0.8.1"
+
+[tool.pytest.ini_options]
+addopts = "-s -v"
+pythonpath = [
+    "hopper-bacco"
+]
+env = [
+    "ENVIRONMENT=testing",
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+test = "pytest:main"
+hopper-bacco = "hopper-bacco:main"

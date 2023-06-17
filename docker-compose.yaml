@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  core:
+    container_name: hopper_bacco
+    image: hopper-bacco:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${PORT}:80"
+    env_file:
+      - .env
+    environment:
+      INIT_PREDICTOR: False
+    networks:
+      - hopper-bacco
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "-X", "GET", "http://localhost:80/api/v1/health/check" ]
+      interval: 300s
+      timeout: 180s
+      retries: 5
+
+networks:
+  hopper-bacco:
+    name: hopper-bacco
