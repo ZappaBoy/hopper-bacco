@@ -15,7 +15,7 @@ cp .example.env .env
 Then edit it based on your needs.
 
 ```bash
-ENVIRONMENT=productioon
+ENVIRONMENT=production
 PORT=10000
 LOG_LEVEL=info
 ALLOWED_HOSTS=["*"]
