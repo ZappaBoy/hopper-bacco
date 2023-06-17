@@ -2,6 +2,7 @@ import threading
 from queue import Queue
 
 import requests
+from fastapi import Response
 
 from routes.hopper.dto.hopper_model import HopperDto
 from routes.services.ip_rotator_service import IpRotatorService
@@ -19,11 +20,11 @@ class HopperService:
         self.proxy_countries = Configurator.instance().get_proxy_countries()
         self.thread_finished = threading.Event()
 
-    def proxy(self, hopper_dto: HopperDto) -> dict:
+    def proxy(self, hopper_dto: HopperDto) -> Response:
         self.logger.debug(f"Proxying request: {hopper_dto}")
         session = requests.Session()
 
-        headers = hopper_dto.headers
+        headers = hopper_dto.headers if hopper_dto.headers is not None else session.headers
         headers['User-Agent'] = self.user_agent_rotator_service.get_random_user_agent()
         proxies = self.ip_rotator_service.get_random_proxy_list(countries=self.proxy_countries)
 
@@ -39,7 +40,8 @@ class HopperService:
         self.thread_finished.wait()
         response = queue.get()
         if response.ok:
-            return response.json()
+            return Response(content=response.content, media_type=hopper_dto.type,
+                            status_code=response.status_code)
         else:
             raise Exception('Error proxying request: ' + str(response.status_code) + ' # ' + response.text)
 

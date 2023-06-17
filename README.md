@@ -40,12 +40,16 @@ You can check the API documentation at `http://localhost:10000/docs` or `http://
 Hopper Bacco is protected by an API key that you can set in the `.env` file.
 The `/hop` endpoint accepts the following parameters:
 
-- `url`: (string) the url to forward the request to;
-- `method`: (string) the HTTP method to use;
-- `params`: (key value dictionary) the query string parameters;
-- `body`: (key value dictionary) the body of the request;
-- `headers`: (key value dictionary) the headers of the request.
+- `url`: (String) the url to forward the request to;
+- `method`: (String) the HTTP method to use;
+- `params`: (Optional key value dictionary) the query string parameters;
+- `body`: (Optional key value dictionary) the body of the request;
+- `headers`: (Optional key value dictionary) the headers of the request.
+- `type`: (Optional string) request content response type. For example `application/json` or `application/xml`.
+  Default: `application/json`.
 
+Note that `type` parameter is used to return as the defined media type, it does not change the response content
+structure.
 #### Request Example
 
 ```bash
@@ -65,6 +69,7 @@ curl --location 'http://localhost:10000/api/v1/hop' \
     },
     "headers": {
         "x-custom-header": "custom header value"
-    }
+    },
+    "type": "application/json"
 }'
 ```
