@@ -2,17 +2,17 @@
 from setuptools import setup
 
 packages = \
-    ['hopper-bacco',
-     'hopper-bacco.routes',
-     'hopper-bacco.routes.hopper',
-     'hopper-bacco.routes.hopper.dto',
-     'hopper-bacco.shared',
-     'hopper-bacco.shared.decorators',
-     'hopper-bacco.shared.deps',
-     'hopper-bacco.shared.middlewares',
-     'hopper-bacco.shared.models',
-     'hopper-bacco.shared.models.settings',
-     'hopper-bacco.shared.utilities']
+['hopper-bacco',
+ 'hopper-bacco.routes',
+ 'hopper-bacco.routes.hopper',
+ 'hopper-bacco.routes.hopper.dto',
+ 'hopper-bacco.shared',
+ 'hopper-bacco.shared.decorators',
+ 'hopper-bacco.shared.deps',
+ 'hopper-bacco.shared.middlewares',
+ 'hopper-bacco.shared.models',
+ 'hopper-bacco.shared.models.settings',
+ 'hopper-bacco.shared.utilities']
 
 package_data = \
     {'': ['*']}
@@ -22,6 +22,7 @@ install_requires = \
      'fastapi>=0.95.1,<0.96.0',
      'loguru>=0.7.0,<0.8.0',
      'pydantic>=1.10.7,<2.0.0',
+     'requests>=2.31.0,<3.0.0',
      'starlette>=0.26.1,<0.27.0',
      'uvicorn>=0.21.1,<0.22.0']
 
@@ -46,3 +47,4 @@ setup_kwargs = {
 }
 
 setup(**setup_kwargs)
+

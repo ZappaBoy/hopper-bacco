@@ -15,6 +15,7 @@ starlette = "^0.26.1"
 pydantic = "^1.10.7"
 loguru = "^0.7.0"
 uvicorn = "^0.21.1"
+requests = "^2.31.0"
 
 
 [tool.poetry.group.dev.dependencies]
