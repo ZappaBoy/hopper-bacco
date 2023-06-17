@@ -517,6 +517,17 @@ files = [
 cli = ["click (>=5.0)"]
 
 [[package]]
+name = "random-user-agent"
+version = "1.0.1"
+description = "A package to get random user agents based filters provided by user"
+optional = false
+python-versions = "*"
+files = [
+    { file = "random_user_agent-1.0.1-py3-none-any.whl", hash = "sha256:535636a55fb63fe3d74fd0260d854c241d9f2946447026464e578e68eac17dac" },
+    { file = "random_user_agent-1.0.1.tar.gz", hash = "sha256:8f8ca26ec8cb1d24ad1758d8b8f700d154064d641dbe9a255cfec42960fbd012" },
+]
+
+[[package]]
 name = "requests"
 version = "2.31.0"
 description = "Python HTTP for Humans."
@@ -713,4 +724,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "54152878aa95891ad2cab13cef480890764a785a4c2892525aa4f08d8f2072fa"
+content-hash = "d3a33c4698cc58da5d17522c2240288cbee6d7fbde63a4226a38bf20dc413e60"
