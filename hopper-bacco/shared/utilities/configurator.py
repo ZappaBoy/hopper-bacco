@@ -10,7 +10,6 @@ class Configurator:
         self._settings = Settings()
         if self._settings.environment == Environment.testing:
             self._settings.log_level = LogLevel.debug
-            self._settings.init_predictor = False
 
     def is_production_environment(self) -> bool:
         return self._settings.environment == Environment.production

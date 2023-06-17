@@ -12,8 +12,6 @@ services:
       - "${PORT}:80"
     env_file:
       - .env
-    environment:
-      INIT_PREDICTOR: False
     networks:
       - hopper-bacco
     healthcheck:
