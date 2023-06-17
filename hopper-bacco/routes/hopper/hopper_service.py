@@ -1,4 +1,5 @@
-from typing import List
+import threading
+from queue import Queue
 
 import requests
 
@@ -22,31 +23,28 @@ class HopperService:
         session = requests.Session()
 
         headers = hopper_dto.headers
-        headers['User-Agent'] = self.get_random_user_agent()
-
+        headers['User-Agent'] = self.user_agent_rotator_service.get_random_user_agent()
         proxies = self.ip_rotator_service.get_random_proxy_list(countries=self.proxy_countries)
-        response = self.execute_request(session=session, hopper_dto=hopper_dto, headers=headers, proxies=proxies)
+
+        queue = Queue()
+        args = (queue, session, hopper_dto, headers)
+        threads = [threading.Thread(target=self.execute_queue_request, args=args + (proxies[i],))
+                   for i in range(len(proxies))]
+        for thread in threads:
+            thread.daemon = True
+            thread.start()
+
+        response = queue.get()
 
         if response.ok:
             return response.json()
         else:
             raise Exception('Error proxying request: ' + str(response.status_code) + ' # ' + response.text)
 
-    def get_random_user_agent(self) -> str:
-        return self.user_agent_rotator_service.get_random_user_agent()
-
-    def execute_request(self, session: requests.Session, hopper_dto: HopperDto, headers: dict, proxies: List[str]) \
-            -> requests.Response:
-        for proxy in proxies:
-            try:
-                proxy_map = {
-                    "http": proxy,
-                    "https": proxy
-                }
-                response = session.request(method=hopper_dto.method, url=hopper_dto.url, params=hopper_dto.params,
-                                           headers=headers, data=hopper_dto.body, proxies=proxy_map,
-                                           timeout=self.timeout)
-                return response
-            except Exception as e:
-                self.logger.error(f"Error proxying request: {e}")
-                continue
+    def execute_queue_request(self, queue: Queue, session: requests.Session, hopper_dto: HopperDto, headers: dict,
+                              proxy: str) -> None:
+        proxy_map = {"http": proxy, "https": proxy}
+        response = session.request(method=hopper_dto.method, url=hopper_dto.url, params=hopper_dto.params,
+                                   headers=headers, data=hopper_dto.body, proxies=proxy_map,
+                                   timeout=self.timeout)
+        queue.put(response)
