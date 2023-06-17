@@ -26,6 +26,7 @@ class HopperService:
 
         headers = hopper_dto.headers if hopper_dto.headers is not None else session.headers
         headers['User-Agent'] = self.user_agent_rotator_service.get_random_user_agent()
+        headers['Content-Type'] = hopper_dto.type
         proxies = self.ip_rotator_service.get_random_proxy_list(countries=self.proxy_countries)
 
         queue = Queue()
@@ -50,7 +51,7 @@ class HopperService:
         proxy_map = {"http": proxy, "https": proxy}
         try:
             response = session.request(method=hopper_dto.method, url=hopper_dto.url, params=hopper_dto.params,
-                                       headers=headers, data=hopper_dto.body, proxies=proxy_map,
+                                       headers=headers, data=hopper_dto.data, proxies=proxy_map, json=hopper_dto.body,
                                        timeout=self.timeout)
             queue.put(response)
             self.thread_finished.set()

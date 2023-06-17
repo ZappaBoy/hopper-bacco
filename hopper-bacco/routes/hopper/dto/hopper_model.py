@@ -7,6 +7,7 @@ class HopperDto(ORMBaseModel):
     url: str
     method: str
     params: Optional[dict] = None
+    data: Optional[str] = None
     body: Optional[dict] = None
     headers: Optional[dict] = None
     type: Optional[str] = "application/json"

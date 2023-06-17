@@ -43,6 +43,7 @@ The `/hop` endpoint accepts the following parameters:
 - `url`: (String) the url to forward the request to;
 - `method`: (String) the HTTP method to use;
 - `params`: (Optional key value dictionary) the query string parameters;
+- `data`: (Optional String) the data of the request (used to send `xml` data type);
 - `body`: (Optional key value dictionary) the body of the request;
 - `headers`: (Optional key value dictionary) the headers of the request.
 - `type`: (Optional string) request content response type. For example `application/json` or `application/xml`.

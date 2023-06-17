@@ -22,5 +22,5 @@ class HopperController:
 
     # TODO: add real proxy logic
     @router.post("/")
-    def proxy(self, hopper_dto: HopperDto, api_key: APIKey = Depends(api_key_auth.check_api_key)) -> dict:
+    def proxy(self, hopper_dto: HopperDto, api_key: APIKey = Depends(api_key_auth.check_api_key)):
         return self.hopper_service.proxy(hopper_dto)
